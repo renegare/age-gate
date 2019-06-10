@@ -3,9 +3,9 @@ const form = require("./ageGateForm");
 
 const AGE_GATE_COOKIE_NAME = "ac";
 
-module.exports = () => {
+module.exports = window => {
   const isValid = cookies.get(AGE_GATE_COOKIE_NAME);
   if (isValid) {
-    form.display();
+    form.display(window);
   }
 };
