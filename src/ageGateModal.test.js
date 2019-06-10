@@ -1,9 +1,6 @@
 const $ = require("jquery");
 const Modal = require("./ageGateModal");
 
-jest.mock("./createElements", () => jest.fn());
-jest.mock("./insertAfter", () => jest.fn());
-
 const callback = jest.fn();
 
 expect.extend({

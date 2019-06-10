@@ -1,6 +1,3 @@
-const createElements = require("./createElements");
-const insertAfter = require("./insertAfter");
-
 const ROLE_CONFIRM = "confirm";
 const ROLE_CANCEL = "cancel";
 const ROLE_CLOSE = "close";
