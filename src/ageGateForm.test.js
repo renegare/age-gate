@@ -59,7 +59,24 @@ describe("ageGateForm", () => {
     expect(insertAfter).toHaveBeenCalledWith(expect.any(Element));
 
     const $html = $(insertAfter.mock.calls[0]);
-    console.log($html.find(".ag-modal"));
+
+    expect($html.find(".ag-modal-container")).toHaveLength(1);
+
+    expect($html.find(".ag-confirm-modal.visible")).toHaveLength(1);
+
+    expect($html.find(".ag-confirm-modal h1")).toHaveLength(1);
+    expect($html.find(".ag-confirm-modal h1").text()).toEqual(
+      "Age Restricted Content"
+    );
+    expect($html.find(".ag-confirm-modal p")).toHaveLength(1);
+    expect($html.find(".ag-confirm-modal p").text()).toEqual(
+      "Please confirm you are above the legal drinking age in your country"
+    );
+
+    expect($html.find(".ag-options .ag-confirm")).toHaveLength(1);
+    expect($html.find(".ag-options .ag-cancel")).toHaveLength(1);
+
+    expect($html.find(".ag-cancel-modal.hidden")).toHaveLength(1);
   });
 
   // describe("confirm", () => {
