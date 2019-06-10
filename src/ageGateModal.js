@@ -20,11 +20,11 @@ class Modal {
   }
 
   trigger(event) {
-    this.listener(event);
+    setTimeout(() => this.listener(event));
   }
 
   getDOM() {
-    this.dom;
+    return this.dom;
   }
 
   loadModal() {

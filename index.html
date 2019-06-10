@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" data-reactroot="">
+  <head>
+    <script src="dist/main.js"></script>
+    <script type="text/javascript">
+      initAgeGate();
+    </script>
+
+    <style type="text/css">
+      .ag-modal-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      .ag-modal-container .hidden {
+        display: none;
+      }
+
+      .ag-confirm-modal,
+      .ag-cancel-modal {
+        background: red;
+        color: white;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .ag-options {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+      }
+
+      .ag-options button {
+        text-transform: uppercase;
+        margin: 20px;
+        margin: 10px;
+        border: 0;
+        padding: 10px;
+        outline: none;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Age Restricted Page</h1>
+  </body>
+</html>

@@ -8,6 +8,10 @@ console.log({ NODE_ENV, isProduction });
 
 module.exports = {
   entry: "./src/initAgeGate",
+  output: {
+    libraryTarget: "window",
+    library: "initAgeGate"
+  },
   mode: isProduction ? "production" : "development",
   devtool: isProduction ? "source-maps" : "eval",
   optimization: {
