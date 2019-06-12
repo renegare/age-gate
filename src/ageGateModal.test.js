@@ -28,15 +28,17 @@ describe("ageGateForm", () => {
   let dom, $html, modal;
   beforeEach(() => {
     jest.resetAllMocks();
+    jest.useFakeTimers();
 
     modal = new Modal(callback);
 
     dom = modal.dom;
     $html = $(dom);
+    jest.runAllTimers();
   });
 
   describe("display", () => {
-    it("should trigger callback with loaded event", () => {
+    it("should trigger callback with loaded event", async () => {
       expect(callback).toHaveBeenCalledTimes(1);
       expect(callback).toHaveBeenCalledWith("loaded");
     });
@@ -75,14 +77,16 @@ describe("ageGateForm", () => {
   describe("destroy", () => {
     beforeEach(() => {
       jest.resetAllMocks();
+      jest.useFakeTimers();
       modal.dom.remove = jest.fn();
       modal.destroy();
+      jest.runAllTimers();
     });
     it("should destroy the dom", () => {
       expect(dom.remove).toHaveBeenCalledTimes(1);
     });
 
-    it("should trigger callback with loaded event", () => {
+    it("should trigger callback with destroyed event", () => {
       expect(callback).toHaveBeenCalledTimes(1);
       expect(callback).toHaveBeenCalledWith("destroyed");
     });
@@ -102,7 +106,7 @@ describe("ageGateForm", () => {
         const $button = $html.find(".ag-options .ag-confirm");
 
         $button.click();
-
+        jest.runAllTimers();
         expect(callback).toHaveBeenCalledTimes(2);
       });
 
@@ -128,6 +132,7 @@ describe("ageGateForm", () => {
         callback.mockReset();
         const $button = $html.find(".ag-options .ag-cancel");
         $button.click();
+        jest.runAllTimers();
       });
 
       it("should trigger cancelled event", () => {
@@ -157,6 +162,7 @@ describe("ageGateForm", () => {
           callback.mockReset();
           const $button = $html.find(".ag-cancel-modal .ag-close");
           $button.click();
+          jest.runAllTimers();
         });
 
         it("should trigger close event", () => {

@@ -20,7 +20,9 @@ class Modal {
   }
 
   trigger(event) {
-    setTimeout(() => this.listener(event));
+    setTimeout(() => {
+      this.listener(event);
+    });
   }
 
   getDOM() {
