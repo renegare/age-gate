@@ -1,6 +1,9 @@
 const ROLE_CONFIRM = "confirm";
 const ROLE_CANCEL = "cancel";
 const ROLE_CLOSE = "close";
+const ROLE_AGE_DAY = "day";
+const ROLE_AGE_MONTH = "month";
+const ROLE_AGE_YEAR = "year";
 
 const EVENT_LOADED = "loaded";
 const EVENT_CONFIRMED = "confirmed";
@@ -34,13 +37,18 @@ class Modal {
     dom.innerHTML = `<div class="ag-modal-container">
       <div class="ag-confirm-modal">
         <div class="ag-content">
-          <h1>Age Restricted Content</h1>
-          <p>Please confirm you are above the legal drinking age in your country</p>
+          <h1>GIN D'AZUR</h1>
+          <p>You must be of legal drinking age to enter</p>
         </div>
 
+        <form>
+          <input role="${ROLE_AGE_DAY}" placeholder="DD"/>
+          <input role="${ROLE_AGE_MONTH}" placeholder="DD"/>
+          <input role="${ROLE_AGE_YEAR}" placeholder="DD"/>
+        </form>
+
         <div class="ag-options">
-          <button class="ag-confirm" role="${ROLE_CONFIRM}">Confirm</button>
-          <button class="ag-cancel" role="${ROLE_CANCEL}">Cancel</button>
+          <button class="ag-confirm" role="${ROLE_CONFIRM}">ENTER</button>
         </div>
       </div>
       <div class="ag-cancel-modal hidden">
@@ -91,4 +99,10 @@ class Modal {
   }
 }
 
-module.exports = Modal;
+module.exports = {
+  Modal,
+  ROLE_AGE_DAY,
+  ROLE_AGE_MONTH,
+  ROLE_AGE_YEAR,
+  ROLE_CONFIRM
+};

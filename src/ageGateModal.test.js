@@ -1,5 +1,11 @@
 const $ = require("jquery");
-const Modal = require("./ageGateModal");
+const {
+  Modal,
+  ROLE_AGE_DAY,
+  ROLE_AGE_MONTH,
+  ROLE_AGE_YEAR,
+  ROLE_CONFIRM
+} = require("./ageGateModal");
 
 const callback = jest.fn();
 
@@ -38,39 +44,61 @@ describe("ageGateForm", () => {
   });
 
   describe("display", () => {
-    it("should trigger callback with loaded event", async () => {
-      expect(callback).toHaveBeenCalledTimes(1);
-      expect(callback).toHaveBeenCalledWith("loaded");
-    });
+    describe("initial state", () => {
+      it("should trigger callback with loaded event", async () => {
+        expect(callback).toHaveBeenCalledTimes(1);
+        expect(callback).toHaveBeenCalledWith("loaded");
+      });
 
-    it("show provide references to dom elements", () => {
-      expect(modal.dom).toEqual(expect.any(Element));
-      expect(modal.confirmModal).toEqual(expect.any(Element));
-      expect(modal.cancelModal).toEqual(expect.any(Element));
-    });
+      it("show provide references to root dom", () => {
+        expect(modal.getDOM()).toEqual(expect.any(Element));
+        expect(modal.confirmModal).toEqual(expect.any(Element));
+        expect(modal.cancelModal).toEqual(expect.any(Element));
+      });
 
-    it("should display form", () => {
-      expect($html.find(".ag-modal-container")).toHaveLength(1);
+      it("should not display cancel modal", () => {
+        $cancelModal = $html.find(".ag-cancel-modal");
+        expect($cancelModal).toHaveLength(1);
+        expect($cancelModal[0]).not.toBeVisible();
+      });
 
-      $confirmModal = $html.find(".ag-confirm-modal");
-      expect($confirmModal).toHaveLength(1);
-      expect($confirmModal[0]).toBeVisible();
+      describe.only("form modal", () => {
+        let $confirmModal;
+        beforeEach(() => {
+          $confirmModal = $html.find(".ag-confirm-modal");
+        });
 
-      $cancelModal = $html.find(".ag-cancel-modal");
-      expect($cancelModal).toHaveLength(1);
-      expect($cancelModal[0]).not.toBeVisible();
+        it("should display", () => {
+          expect($confirmModal).toHaveLength(1);
+          expect($confirmModal[0]).toBeVisible();
+        });
 
-      expect($html.find(".ag-confirm-modal h1")).toHaveLength(1);
-      expect($html.find(".ag-confirm-modal h1").text()).toEqual(
-        "Age Restricted Content"
-      );
-      expect($html.find(".ag-confirm-modal p")).toHaveLength(1);
-      expect($html.find(".ag-confirm-modal p").text()).toEqual(
-        "Please confirm you are above the legal drinking age in your country"
-      );
+        it("should display content", () => {
+          expect($confirmModal.find("h1")).toHaveLength(1);
+          expect($confirmModal.find("h1").text()).toEqual("GIN D'AZUR");
+          expect($confirmModal.find("p")).toHaveLength(1);
+          expect($confirmModal.find("p").text()).toEqual(
+            "You must be of legal drinking age to enter"
+          );
+        });
 
-      expect($html.find(".ag-confirm-modal .ag-confirm")).toHaveLength(1);
-      expect($html.find(".ag-confirm-modal .ag-cancel")).toHaveLength(1);
+        it("should display age fields", () => {
+          expect(
+            $confirmModal.find(`input[role=${ROLE_AGE_DAY}]`)
+          ).toHaveLength(1);
+          expect(
+            $confirmModal.find(`input[role=${ROLE_AGE_MONTH}]`)
+          ).toHaveLength(1);
+          expect(
+            $confirmModal.find(`input[role=${ROLE_AGE_YEAR}]`)
+          ).toHaveLength(1);
+        });
+
+        it("should display confirm button", () => {
+          expect($confirmModal.find(`[role=${ROLE_CONFIRM}]`)).toHaveLength(1);
+        });
+        // it('should display remember me field');
+      });
     });
   });
 
@@ -133,28 +161,6 @@ describe("ageGateForm", () => {
         const $button = $html.find(".ag-options .ag-cancel");
         $button.click();
         jest.runAllTimers();
-      });
-
-      it("should trigger cancelled event", () => {
-        expect(callback).toHaveBeenCalledTimes(1);
-        expect(callback).toHaveBeenCalledWith("cancelled");
-      });
-
-      it("should display cancel modal form", () => {
-        $confirmModal = $html.find(".ag-confirm-modal");
-        expect($confirmModal[0]).not.toBeVisible();
-
-        $cancelModal = $html.find(".ag-cancel-modal");
-        expect($cancelModal[0]).toBeVisible();
-
-        expect($html.find(".ag-cancel-modal h1")).toHaveLength(1);
-        expect($html.find(".ag-cancel-modal h1").text()).toEqual("Sorry!");
-        expect($html.find(".ag-cancel-modal p")).toHaveLength(1);
-        expect($html.find(".ag-cancel-modal p").text()).toEqual(
-          "You need to be of legal drinking age to visit our website"
-        );
-
-        expect($html.find(".ag-cancel-modal .ag-close")).toHaveLength(1);
       });
 
       describe("close", () => {
