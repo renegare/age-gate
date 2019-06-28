@@ -1,5 +1,5 @@
 const cookies = require("./cookies");
-const Modal = require("./ageGateModal");
+const { Modal } = require("./AgeGateModal");
 
 const AGE_GATE_COOKIE_NAME = "ac";
 

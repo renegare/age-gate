@@ -1,5 +1,5 @@
 const cookies = require("./cookies");
-const { Modal, mockGetDOM } = require("./ageGateModal");
+const { Modal, mockGetDOM } = require("./AgeGateModal");
 const initAgeGate = require("./initAgeGate");
 
 jest.mock("./cookies", () => ({
@@ -7,18 +7,7 @@ jest.mock("./cookies", () => ({
   set: jest.fn()
 }));
 
-jest.mock("./ageGateModal");
-// jest.mock("./ageGateModal", () => {
-//   console.log("Modal require");
-//   return {
-//     Modal: jest.fn(() => {
-//       console.log("Modal constructor called");
-//       return {
-//         getDOM: jest.fn()
-//       };
-//     })
-//   };
-// });
+jest.mock("./AgeGateModal");
 
 const insertBefore = jest.fn();
 const firstChild = null;
@@ -34,7 +23,7 @@ describe("initAgeGate", () => {
     // mockGetDOM.mockClear();
   });
 
-  it.only("should show form if cookie is not set", () => {
+  it("should NOT show Modal if cookie is not set", () => {
     cookies.get.mockImplementation(() => "true");
     initAgeGate();
 
@@ -42,13 +31,17 @@ describe("initAgeGate", () => {
     expect(cookies.get).toHaveBeenCalledWith("ac");
 
     expect(Modal).not.toHaveBeenCalled();
+  });
 
-    console.log("instances count:", Modal.mock.instances.length);
-    const modal = new Modal();
-    console.log({ modal }, modal.getDOM);
-    console.log("instances count:", Modal.mock.instances.length);
-    Modal.mockClear();
-    console.log("instances count:", Modal.mock.instances.length);
+  it("should show Modal if cookie is not set", () => {
+    cookies.get.mockImplementation(() => null);
+    initAgeGate();
+
+    expect(cookies.get).toHaveBeenCalledTimes(1);
+    expect(cookies.get).toHaveBeenCalledWith("ac");
+
+    expect(Modal).toHaveBeenCalledTimes(1);
+    expect(Modal).toHaveBeenCalledWith(expect.any(Function));
   });
 
   describe("no cookie", () => {
@@ -59,19 +52,11 @@ describe("initAgeGate", () => {
     beforeEach(() => {
       cookies.get.mockImplementation(() => null);
       initAgeGate();
+      expect(Modal).toHaveBeenCalledTimes(1);
       modal = Modal.mock.instances[0];
-      console.log({ modal });
       mockDOM = jest.fn();
       modal.getDOM.mockImplementation(() => mockDOM);
       listener = Modal.mock.calls[0][0];
-    });
-
-    it("should shows form if cookie is not set", () => {
-      expect(cookies.get).toHaveBeenCalledTimes(1);
-      expect(cookies.get).toHaveBeenCalledWith("ac");
-
-      expect(Modal).toHaveBeenCalledTimes(1);
-      expect(Modal).toHaveBeenCalledWith(expect.any(Function));
     });
 
     describe("events", () => {
