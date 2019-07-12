@@ -1,7 +1,9 @@
 const Roles = Object.freeze({
   CONFIRM: "confirm",
   CANCEL: "cancel",
-  CLOSE: "close"
+  CLOSE: "close",
+  CONFIRM_MODAL: "confirm_modal",
+  CANCEL_MODAL: "cancel_modal"
 });
 
 const Events = Object.freeze({
@@ -36,7 +38,7 @@ class Modal {
   loadModal() {
     const dom = document.createElement("div");
     dom.innerHTML = `<div class="ag-modal-container">
-      <div class="ag-confirm-modal">
+      <div class="ag-confirm-modal" role="${Roles.CONFIRM_MODAL}">
         <div class="ag-content">
           <h1>Age Restricted Content</h1>
           <p>Please confirm you are above the legal drinking age in your country</p>
@@ -47,7 +49,7 @@ class Modal {
           <button class="ag-cancel" role="${Roles.CANCEL}">Cancel</button>
         </div>
       </div>
-      <div class="ag-cancel-modal hidden">
+      <div class="ag-cancel-modal hidden" role="${Roles.CANCEL_MODAL}">
         <div class="ag-content">
           <h1>Sorry!</h1>
           <p>You need to be of legal drinking age to visit our website</p>
