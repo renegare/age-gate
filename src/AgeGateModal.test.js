@@ -3,6 +3,24 @@ const { Modal, Roles, Events } = require("./ageGateModal");
 
 const callback = jest.fn();
 
+const TEMPLATE = `
+<div>
+  <div role="${Roles.CONFIRM_MODAL}">
+    
+    <h1>Age Restricted Content</h1>
+    <p>Please confirm you are above the legal drinking age in your country</p>
+
+    <button role="${Roles.CONFIRM}">Confirm</button>
+    <button role="${Roles.CANCEL}">Cancel</button>
+  </div>
+  <div role="${Roles.CANCEL_MODAL}">
+    <h1>Sorry!</h1>
+    <p>You need to be of legal drinking age to visit our website</p>
+
+    <button role="${Roles.CLOSE}">Close</button>
+  </div>
+</div>`;
+
 expect.extend({
   toBeVisible: dom => {
     try {
@@ -16,9 +34,9 @@ expect.extend({
 
     return {
       message: () =>
-        `expected DOM with class(es) "${[].slice
-          .call(dom.classList)
-          .join(" ")}" to not contain the class hidden`,
+        `expected DOM [role=${dom.getAttribute(
+          "role"
+        )}] not to contain the class hidden`,
       pass: !dom.classList.contains("hidden")
     };
   }
@@ -30,7 +48,7 @@ describe("ageGateForm", () => {
     jest.resetAllMocks();
     jest.useFakeTimers();
 
-    modal = new Modal(callback);
+    modal = new Modal(callback, TEMPLATE);
 
     dom = modal.dom;
     $html = $(dom);
@@ -57,15 +75,6 @@ describe("ageGateForm", () => {
       $cancelModal = $html.find(`[role=${Roles.CANCEL_MODAL}]`);
       expect($cancelModal).toHaveLength(1);
       expect($cancelModal[0]).not.toBeVisible();
-
-      // expect($html.find(".ag-confirm-modal h1")).toHaveLength(1);
-      // expect($html.find(".ag-confirm-modal h1").text()).toEqual(
-      //   "Age Restricted Content"
-      // );
-      // expect($html.find(".ag-confirm-modal p")).toHaveLength(1);
-      // expect($html.find(".ag-confirm-modal p").text()).toEqual(
-      //   "Please confirm you are above the legal drinking age in your country"
-      // );
 
       expect(
         $html.find(`[role=${Roles.CONFIRM_MODAL}] [role=${Roles.CONFIRM}]`)
@@ -148,13 +157,6 @@ describe("ageGateForm", () => {
 
         $cancelModal = $html.find(`[role=${Roles.CANCEL_MODAL}]`);
         expect($cancelModal[0]).toBeVisible();
-
-        // expect($html.find(".ag-cancel-modal h1")).toHaveLength(1);
-        // expect($html.find(".ag-cancel-modal h1").text()).toEqual("Sorry!");
-        // expect($html.find(".ag-cancel-modal p")).toHaveLength(1);
-        // expect($html.find(".ag-cancel-modal p").text()).toEqual(
-        //   "You need to be of legal drinking age to visit our website"
-        // );
 
         expect(
           $html.find(`[role=${Roles.CANCEL_MODAL}] [role=${Roles.CLOSE}]`)

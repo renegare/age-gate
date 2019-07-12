@@ -17,12 +17,12 @@ const Events = Object.freeze({
 const noOp = () => {};
 
 class Modal {
-  constructor(listener) {
+  constructor(listener, template) {
     this.listener = listener || noOp;
     this.dom = null;
     this.confirmModal = null;
     this.cancelModal = null;
-    this.loadModal();
+    this.loadModal(template);
   }
 
   trigger(event) {
@@ -35,34 +35,14 @@ class Modal {
     return this.dom;
   }
 
-  loadModal() {
+  loadModal(template) {
     const dom = document.createElement("div");
-    dom.innerHTML = `<div class="ag-modal-container">
-      <div class="ag-confirm-modal" role="${Roles.CONFIRM_MODAL}">
-        <div class="ag-content">
-          <h1>Age Restricted Content</h1>
-          <p>Please confirm you are above the legal drinking age in your country</p>
-        </div>
-
-        <div class="ag-options">
-          <button class="ag-confirm" role="${Roles.CONFIRM}">Confirm</button>
-          <button class="ag-cancel" role="${Roles.CANCEL}">Cancel</button>
-        </div>
-      </div>
-      <div class="ag-cancel-modal hidden" role="${Roles.CANCEL_MODAL}">
-        <div class="ag-content">
-          <h1>Sorry!</h1>
-          <p>You need to be of legal drinking age to visit our website</p>
-        </div>
-        <div class="ag-options">
-          <button class="ag-close" role="${Roles.CLOSE}">Close</button>
-        </div>
-      </div>
-    </div>`;
+    dom.innerHTML = template;
     dom.addEventListener("click", this.handleOptions.bind(this));
 
-    this.confirmModal = dom.querySelector(".ag-confirm-modal");
-    this.cancelModal = dom.querySelector(".ag-cancel-modal");
+    this.confirmModal = dom.querySelector(`[role=${Roles.CONFIRM_MODAL}]`);
+    this.cancelModal = dom.querySelector(`[role=${Roles.CANCEL_MODAL}]`);
+    this.cancelModal.classList.add("hidden");
 
     this.dom = dom;
     this.trigger(Events.LOADED);
