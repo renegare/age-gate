@@ -1,6 +1,6 @@
 const cookies = require("./cookies");
 const { Modal } = require("./ageGateModal");
-const initAgeGate = require("./initAgeGate");
+const { init } = require("./initAgeGate");
 
 jest.mock("./cookies", () => ({
   get: jest.fn(),
@@ -10,11 +10,18 @@ jest.mock("./cookies", () => ({
 jest.mock("./ageGateModal");
 
 const insertBefore = jest.fn();
-const firstChild = null;
+const firstChild = {
+  classList: {
+    add: jest.fn(),
+    remove: jest.fn()
+  }
+};
 
 document.body = document.createElement("body");
 document.body.insertBefore = insertBefore;
-document.body.firstChild = firstChild;
+Object.defineProperty(document.body, "children", {
+  value: [firstChild]
+});
 
 describe("initAgeGate", () => {
   beforeEach(() => {
@@ -24,7 +31,7 @@ describe("initAgeGate", () => {
 
   it("should show form if cookie is not set", () => {
     cookies.get.mockImplementation(() => "true");
-    initAgeGate();
+    init();
 
     expect(cookies.get).toHaveBeenCalledTimes(1);
     expect(cookies.get).toHaveBeenCalledWith("ac");
@@ -36,14 +43,15 @@ describe("initAgeGate", () => {
     let listener;
     let modal;
     let mockDOM;
+    const mockTemplate = "<div></div>";
 
     beforeEach(() => {
       cookies.get.mockImplementation(() => null);
-      initAgeGate();
+      init(mockTemplate);
       modal = Modal.mock.instances[0];
       mockDOM = jest.fn();
       modal.getDOM.mockImplementation(() => mockDOM);
-      listener = Modal.mock.calls[0][0];
+      [, listener] = Modal.mock.calls[0];
     });
 
     it("should shows form if cookie is not set", () => {
@@ -51,7 +59,7 @@ describe("initAgeGate", () => {
       expect(cookies.get).toHaveBeenCalledWith("ac");
 
       expect(Modal).toHaveBeenCalledTimes(1);
-      expect(Modal).toHaveBeenCalledWith(expect.any(Function));
+      expect(Modal).toHaveBeenCalledWith(mockTemplate, expect.any(Function));
     });
 
     describe("events", () => {
@@ -62,6 +70,7 @@ describe("initAgeGate", () => {
           listener("loaded");
           expect(insertBefore).toHaveBeenCalledTimes(1);
           expect(insertBefore).toHaveBeenCalledWith(mockDOM, firstChild);
+          expect(firstChild.classList.add).toHaveBeenCalledWith("hidden");
         });
       });
 
@@ -82,6 +91,8 @@ describe("initAgeGate", () => {
         it("should remove html from dom", () => {
           listener("closed");
           expect(modal.destroy).toHaveBeenCalledTimes(1);
+
+          expect(firstChild.classList.remove).toHaveBeenCalledWith("hidden");
         });
       });
     });

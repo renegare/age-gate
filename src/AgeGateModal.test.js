@@ -48,7 +48,7 @@ describe("ageGateForm", () => {
     jest.resetAllMocks();
     jest.useFakeTimers();
 
-    modal = new Modal(callback, TEMPLATE);
+    modal = new Modal(TEMPLATE, callback);
 
     dom = modal.dom;
     $html = $(dom);

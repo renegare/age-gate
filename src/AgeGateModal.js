@@ -19,8 +19,8 @@ const HIDDEN_CLASS = "hidden";
 const noOp = () => {};
 
 class Modal {
-  constructor(listener, template) {
-    this.listener = listener || noOp;
+  constructor(template, listener = noOp) {
+    this.listener = listener;
     this.dom = null;
     this.confirmModal = null;
     this.cancelModal = null;
