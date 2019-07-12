@@ -1,5 +1,5 @@
 const $ = require("jquery");
-const { Modal, Roles, Events } = require("./ageGateModal");
+const { Modal, Roles, Events, HIDDEN_CLASS } = require("./ageGateModal");
 
 const callback = jest.fn();
 
@@ -37,7 +37,7 @@ expect.extend({
         `expected DOM [role=${dom.getAttribute(
           "role"
         )}] not to contain the class hidden`,
-      pass: !dom.classList.contains("hidden")
+      pass: !dom.classList.contains(HIDDEN_CLASS)
     };
   }
 });

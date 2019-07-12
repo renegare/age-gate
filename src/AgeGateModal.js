@@ -14,6 +14,8 @@ const Events = Object.freeze({
   DESTROYED: "destroyed"
 });
 
+const HIDDEN_CLASS = "hidden";
+
 const noOp = () => {};
 
 class Modal {
@@ -42,7 +44,7 @@ class Modal {
 
     this.confirmModal = dom.querySelector(`[role=${Roles.CONFIRM_MODAL}]`);
     this.cancelModal = dom.querySelector(`[role=${Roles.CANCEL_MODAL}]`);
-    this.cancelModal.classList.add("hidden");
+    this.cancelModal.classList.add(HIDDEN_CLASS);
 
     this.dom = dom;
     this.trigger(Events.LOADED);
@@ -61,16 +63,16 @@ class Modal {
     switch (role) {
       case Roles.CONFIRM:
       case Roles.CLOSE:
-        this.confirmModal.classList.add("hidden");
-        this.cancelModal.classList.add("hidden");
+        this.confirmModal.classList.add(HIDDEN_CLASS);
+        this.cancelModal.classList.add(HIDDEN_CLASS);
         if (role === Roles.CONFIRM) {
           this.trigger(Events.CONFIRMED);
         }
         this.trigger(Events.CLOSED);
         break;
       case Roles.CANCEL:
-        this.confirmModal.classList.add("hidden");
-        this.cancelModal.classList.remove("hidden");
+        this.confirmModal.classList.add(HIDDEN_CLASS);
+        this.cancelModal.classList.remove(HIDDEN_CLASS);
         this.trigger(Events.CANCELLED);
         break;
     }
@@ -80,5 +82,6 @@ class Modal {
 module.exports = {
   Modal,
   Roles,
-  Events
+  Events,
+  HIDDEN_CLASS
 };
