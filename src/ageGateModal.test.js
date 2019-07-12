@@ -1,5 +1,5 @@
 const $ = require("jquery");
-const Modal = require("./ageGateModal");
+const { Modal } = require("./ageGateModal");
 
 const callback = jest.fn();
 

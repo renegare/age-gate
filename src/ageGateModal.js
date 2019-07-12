@@ -1,12 +1,16 @@
-const ROLE_CONFIRM = "confirm";
-const ROLE_CANCEL = "cancel";
-const ROLE_CLOSE = "close";
+const Roles = Object.freeze({
+  CONFIRM: "confirm",
+  CANCEL: "cancel",
+  CLOSE: "close"
+});
 
-const EVENT_LOADED = "loaded";
-const EVENT_CONFIRMED = "confirmed";
-const EVENT_CANCELLED = "cancelled";
-const EVENT_CLOSED = "closed";
-const EVENT_DESTROYED = "destroyed";
+const Events = Object.freeze({
+  LOADED: "loaded",
+  CONFIRMED: "confirmed",
+  CANCELLED: "cancelled",
+  CLOSED: "closed",
+  DESTROYED: "destroyed"
+});
 
 const noOp = () => {};
 
@@ -39,8 +43,8 @@ class Modal {
         </div>
 
         <div class="ag-options">
-          <button class="ag-confirm" role="${ROLE_CONFIRM}">Confirm</button>
-          <button class="ag-cancel" role="${ROLE_CANCEL}">Cancel</button>
+          <button class="ag-confirm" role="${Roles.CONFIRM}">Confirm</button>
+          <button class="ag-cancel" role="${Roles.CANCEL}">Cancel</button>
         </div>
       </div>
       <div class="ag-cancel-modal hidden">
@@ -49,7 +53,7 @@ class Modal {
           <p>You need to be of legal drinking age to visit our website</p>
         </div>
         <div class="ag-options">
-          <button class="ag-close" role="${ROLE_CLOSE}">Close</button>
+          <button class="ag-close" role="${Roles.CLOSE}">Close</button>
         </div>
       </div>
     </div>`;
@@ -59,7 +63,7 @@ class Modal {
     this.cancelModal = dom.querySelector(".ag-cancel-modal");
 
     this.dom = dom;
-    this.trigger(EVENT_LOADED);
+    this.trigger(Events.LOADED);
   }
 
   destroy() {
@@ -67,28 +71,32 @@ class Modal {
     this.dom = null;
     this.confirmModal = null;
     this.cancelModal = null;
-    this.trigger(EVENT_DESTROYED);
+    this.trigger(Events.DESTROYED);
   }
 
   handleOptions(event) {
     const role = event.target.getAttribute("role");
     switch (role) {
-      case ROLE_CONFIRM:
-      case ROLE_CLOSE:
+      case Roles.CONFIRM:
+      case Roles.CLOSE:
         this.confirmModal.classList.add("hidden");
         this.cancelModal.classList.add("hidden");
-        if (role === ROLE_CONFIRM) {
-          this.trigger(EVENT_CONFIRMED);
+        if (role === Roles.CONFIRM) {
+          this.trigger(Events.CONFIRMED);
         }
-        this.trigger(EVENT_CLOSED);
+        this.trigger(Events.CLOSED);
         break;
-      case ROLE_CANCEL:
+      case Roles.CANCEL:
         this.confirmModal.classList.add("hidden");
         this.cancelModal.classList.remove("hidden");
-        this.trigger(EVENT_CANCELLED);
+        this.trigger(Events.CANCELLED);
         break;
     }
   }
 }
 
-module.exports = Modal;
+module.exports = {
+  Modal,
+  Roles,
+  Events
+};

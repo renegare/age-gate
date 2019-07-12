@@ -1,5 +1,5 @@
 const cookies = require("./cookies");
-const Modal = require("./ageGateModal");
+const { Modal } = require("./ageGateModal");
 const initAgeGate = require("./initAgeGate");
 
 jest.mock("./cookies", () => ({
