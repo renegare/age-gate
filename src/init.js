@@ -1,6 +1,6 @@
 const cookies = require("./cookies");
 const { Modal } = require("./modal");
-const { Roles, HIDDEN_CLASS } = require("./constants");
+const { HIDDEN_CLASS } = require("./constants");
 
 const AGE_GATE_COOKIE_NAME = "ac";
 

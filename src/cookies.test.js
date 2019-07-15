@@ -30,14 +30,20 @@ describe("cookies", () => {
   });
 
   describe("get", () => {
-    it("should get a cookie", () => {
-      const key = "cookie_key";
-      const value = "cookie_value";
+    const key = "cookie_key";
+    const value = "cookie_value";
+    beforeEach(() => {
       mockGet.mockImplementation(
         () => `cookieA=valueA; ${key}=${value}; cookieB=valueB;`
       );
+    });
 
+    it("should get a cookie", () => {
       expect(cookies.get(key)).toEqual(value);
+    });
+
+    it("should not get a cookie", () => {
+      expect(cookies.get("non-existent-key")).toEqual(undefined);
     });
   });
 });
