@@ -7,11 +7,7 @@ const isProduction = NODE_ENV === "production" ? true : false;
 console.log({ NODE_ENV, isProduction });
 
 module.exports = {
-  entry: "./src/initAgeGate",
-  output: {
-    libraryTarget: "window",
-    library: "initAgeGate"
-  },
+  entry: "./src/index.js",
   mode: isProduction ? "production" : "development",
   devtool: isProduction ? "source-maps" : "eval",
   optimization: {

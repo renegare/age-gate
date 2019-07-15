@@ -1,6 +1,6 @@
 const $ = require("jquery");
-const { Modal, Roles, Events, HIDDEN_CLASS } = require("./ageGateModal");
-
+const { Modal } = require("./modal");
+const { Roles, Events, HIDDEN_CLASS } = require("./constants");
 const callback = jest.fn();
 
 const TEMPLATE = `

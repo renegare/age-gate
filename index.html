@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-reactroot="">
+<html lang="en">
   <head>
     <style type="text/css">
       .ag-modal-container {
@@ -43,36 +43,9 @@
       }
     </style>
 
-    <script src="dist/main.js"></script>
+    <script async="true" src="dist/main.js"></script>
   </head>
   <body>
     <h1 class="hidden">Age Restricted Page</h1>
-    <script type="text/javascript">
-      (({ Roles, init }) =>
-        init(`
-        <div class="ag-modal-container">
-  <div class="ag-confirm-modal" role="${Roles.CONFIRM_MODAL}">
-    <div class="ag-content">
-      <h1>Age Restricted Content</h1>
-      <p>Please confirm you are above the legal drinking age in your country</p>
-    </div>
-
-    <div class="ag-options">
-      <button class="ag-confirm" role="${Roles.CONFIRM}">Confirm</button>
-      <button class="ag-cancel" role="${Roles.CANCEL}">Cancel</button>
-    </div>
-  </div>
-  <div class="ag-cancel-modal hidden" role="${Roles.CANCEL_MODAL}">
-    <div class="ag-content">
-      <h1>Sorry!</h1>
-      <p>You need to be of legal drinking age to visit our website</p>
-    </div>
-    <!-- <div class="ag-options">
-      <button class="ag-close" role="${Roles.CLOSE}">Close</button>
-    </div> -->
-  </div>
-  </div>
-      `))(initAgeGate);
-    </script>
   </body>
 </html>

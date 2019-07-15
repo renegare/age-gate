@@ -1,13 +1,13 @@
 const cookies = require("./cookies");
-const { Modal } = require("./ageGateModal");
-const { init } = require("./initAgeGate");
+const { Modal } = require("./modal");
+const { init } = require("./init");
 
 jest.mock("./cookies", () => ({
   get: jest.fn(),
   set: jest.fn()
 }));
 
-jest.mock("./ageGateModal");
+jest.mock("./modal");
 
 const insertBefore = jest.fn();
 const firstChild = {

@@ -1,22 +1,4 @@
-const Roles = Object.freeze({
-  CONFIRM: "confirm",
-  CANCEL: "cancel",
-  CLOSE: "close",
-  CONFIRM_MODAL: "confirm_modal",
-  CANCEL_MODAL: "cancel_modal"
-});
-
-const Events = Object.freeze({
-  LOADED: "loaded",
-  CONFIRMED: "confirmed",
-  CANCELLED: "cancelled",
-  CLOSED: "closed",
-  DESTROYED: "destroyed"
-});
-
-const HIDDEN_CLASS = "hidden";
-
-const noOp = () => {};
+const { Roles, Events, HIDDEN_CLASS, noOp } = require("./constants");
 
 class Modal {
   constructor(template, listener = noOp) {
@@ -80,8 +62,5 @@ class Modal {
 }
 
 module.exports = {
-  Modal,
-  Roles,
-  Events,
-  HIDDEN_CLASS
+  Modal
 };
